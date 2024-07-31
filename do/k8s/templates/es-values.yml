@@ -1,0 +1,51 @@
+data:
+  replicaCount: 0
+
+coordinating:
+  replicaCount: 0
+
+ingest:
+  replicaCount: 0
+
+metrics:
+  enabled: true
+
+global:
+  storageClass: "do-block-storage"
+
+image:
+  tag: "7.10.2-debian-10-r350"
+
+extraConfig:
+  s3.client.default.endpoint: nyc3.digitaloceanspaces.com
+
+clusterName: "elasticsearch"
+
+master:
+  masterOnly: false
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"
+
+extraVolumes:
+  - name: "elastic-cm"
+    configMap:
+      name: "elastic-cm"
+
+extraVolumeMounts:
+  - name: elastic-cm
+    mountPath: "/opt/bitnami/elasticsearch/config/synonyms.txt"
+    subPath: "synonyms.txt"
+
+extraEnvVarsSecret: "elastic-secrets"
+
+initScripts:
+  setup-es.sh: |
+    #!/bin/sh
+    echo $DO_ACCESS_KEY_ID | /opt/bitnami/elasticsearch/bin/elasticsearch-keystore add --force --verbose --stdin s3.client.default.access_key
+    echo $DO_SECRET_ACCESS_KEY  | /opt/bitnami/elasticsearch/bin/elasticsearch-keystore add --force --verbose --stdin s3.client.default.secret_key

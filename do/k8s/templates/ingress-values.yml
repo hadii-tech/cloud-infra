@@ -1,0 +1,44 @@
+## Starter Kit nginx configuration
+## Ref: https://github.com/kubernetes/ingress-nginx/tree/helm-chart-4.0.13/charts/ingress-nginx
+##
+
+controller:
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+  service:
+    type: LoadBalancer
+    externalTrafficPolicy: "Local"
+    annotations:
+      # Enable proxy protocol
+      service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+      service.beta.kubernetes.io/do-loadbalancer-hostname: "hadith.academyofislam.com"
+      # Specify whether the DigitalOcean Load Balancer should pass encrypted data to backend droplets
+      #service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "false"
+      #service.kubernetes.io/do-loadbalancer-disown: false
+  ## Will add custom configuration options to Nginx https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
+  config:
+    use-proxy-protocol: "true"
+    keep-alive-requests: "10000"
+    upstream-keepalive-requests: "1000"
+    worker-processes: "auto"
+    max-worker-connections: "65535"
+    use-gzip: "true"
+  # Enable the metrics of the NGINX Ingress controller https://kubernetes.github.io/ingress-nginx/user-guide/monitoring/
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: "prometheus"
+  publishService:
+    enabled: true   
+  podAnnotations:
+    controller:
+      metrics:
+        service:
+          servicePort: "9090"
+    prometheus.io/port: "10254"
+    prometheus.io/scrape: "true"

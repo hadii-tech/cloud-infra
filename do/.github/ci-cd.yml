@@ -1,0 +1,39 @@
+
+name: CI-CD
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+            terraform_version: 1.4.6
+      - name: "Terraform Format"
+        run: |
+          terraform fmt -check -diff
+      - name: "Terraform Init"
+        run: |
+          terraform init
+      - name: "Terraform Validate"
+        run: |
+          terraform validate
+      - name: "Terraform Plan"
+        run: |
+          terraform plan -var-file="env.tfvars"
+      - name: "Terraform Apply"
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          terraform apply -auto-approve -var-file="env.tfvars" -var do_spaces_secret_key=$DO_SECRET_ACCESS_KEY -var do_spaces_access_key=$DO_ACCESS_KEY_ID
+
+env:
+  DO_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
+  DO_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID }}

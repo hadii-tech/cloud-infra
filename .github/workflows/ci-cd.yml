@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
 
     steps:
       - uses: actions/checkout@v4
@@ -32,8 +32,11 @@ jobs:
       - name: "Terraform Apply"
         if: ${{ github.ref == 'refs/heads/digital-ocean' }}
         run: |
-          terraform apply -auto-approve -var-file="env.tfvars" -var do_spaces_secret_key=$DO_SECRET_ACCESS_KEY -var do_spaces_access_key=$DO_ACCESS_KEY_ID
+          terraform apply -auto-approve -var-file="env.tfvars"
 
 env:
-  DO_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
-  DO_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID  }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
+  TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
+  TF_VAR_do_spaces_access_key: ${{ secrets.DO_ACCESS_KEY_ID }}
+  TF_VAR_do_spaces_secret_key: ${{ secrets.DO_SECRET_ACCESS_KEY }}

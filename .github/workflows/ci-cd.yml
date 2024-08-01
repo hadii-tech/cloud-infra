@@ -35,8 +35,8 @@ jobs:
           terraform apply -auto-approve -var-file="env.tfvars" -var do_spaces_secret_key=$DO_SECRET_ACCESS_KEY -var do_spaces_access_key=$DO_ACCESS_KEY_ID
 
 env:
-  DO_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
-  DO_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID }}
   AWS_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID  }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
   TF_VAR_DO_TOKEN: ${{ secrets.DO_TOKEN }}
+  TF_VAR_DO_SPACES_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY_ID }}
+  TF_VAR_DO_SPACES_SECRET_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}

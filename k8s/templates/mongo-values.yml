@@ -6,6 +6,6 @@ auth:
     enabled: false
 metrics:
   enabled: true
-   serviceMonitor:
+  serviceMonitor:
     enabled: true
     namespace: monitoring

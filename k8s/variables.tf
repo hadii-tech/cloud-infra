@@ -68,3 +68,8 @@ variable "elastic_ns" {
   default = "elastic"
 }
 
+variable "mongo_ns" {
+  type    = string
+  default = "mongo"
+}
+

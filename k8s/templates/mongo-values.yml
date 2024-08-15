@@ -1,6 +1,5 @@
 architecture: replicaset
 replicaCount: 2
-clusterDomain: "k8s-mongodb"
 persistence:
     storageClass: "do-block-storage"
 auth:

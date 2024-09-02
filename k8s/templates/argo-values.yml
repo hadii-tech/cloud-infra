@@ -1,0 +1,3 @@
+# Argo CD repository server replica count
+repoServer:
+  replicas: 2

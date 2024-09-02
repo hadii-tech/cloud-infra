@@ -1,6 +1,5 @@
 # Argo CD repository server replica count
 server:
   insecure: true
-
 repoServer:
   replicas: 2

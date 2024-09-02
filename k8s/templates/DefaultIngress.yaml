@@ -27,4 +27,14 @@ spec:
               name: kube-prometheus-stack-prometheus
               port:
                 number: 9090
+  - host: argo.hadii.com
+    http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: argocd-server
+              port:
+                number: 80
   

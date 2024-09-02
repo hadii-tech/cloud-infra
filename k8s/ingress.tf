@@ -44,7 +44,8 @@ resource "kubernetes_manifest" "default-ingresses" {
   manifest = yamldecode(file("${path.module}/templates/DefaultIngress.yaml"))
   depends_on = [
     helm_release.ingress-nginx,
-    helm_release.kube-prometheus-stack
+    helm_release.kube-prometheus-stack,
+    helm_release.argocd
   ]
 }
 

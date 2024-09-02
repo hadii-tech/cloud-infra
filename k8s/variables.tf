@@ -73,3 +73,8 @@ variable "mongo_ns" {
   default = "mongo"
 }
 
+variable "argo_ns" {
+  type    = string
+  default = "argo"
+}
+

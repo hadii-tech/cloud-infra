@@ -40,11 +40,17 @@ resource "helm_release" "ingress-nginx" {
   ]
 }
 
-resource "kubernetes_manifest" "default-ingresses" {
-  manifest = yamldecode(file("${path.module}/templates/DefaultIngress.yaml"))
+resource "kubernetes_manifest" "monitoring-ingresses" {
+  manifest = yamldecode(file("${path.module}/templates/MonitoringIngress.yaml"))
   depends_on = [
     helm_release.ingress-nginx,
-    helm_release.kube-prometheus-stack,
+    helm_release.kube-prometheus-stack
+  ]
+}
+
+resource "kubernetes_manifest" "argo-ingresses" {
+  manifest = yamldecode(file("${path.module}/templates/ArgoIngress.yaml"))
+  depends_on = [
     helm_release.argocd
   ]
 }

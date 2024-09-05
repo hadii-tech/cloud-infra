@@ -3,7 +3,6 @@ server:
   insecure: true
 configs:
   params:
-    server:
-      insecure: true
+    server.insecure: true
 repoServer:
   replicas: 2
